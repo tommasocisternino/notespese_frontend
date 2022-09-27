@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import {useNavigate} from 'react-router-dom';
+import AuthProvider from "./providers/AuthProvider";
+import RouteProvider from "./providers/RouteProvider";
+import {useContext} from "react";
+import AuthContext from "./contexts/AuthContext";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(props) {
+
+    const navigate = useNavigate();
+    const goToRoute = (route, state = {}) => {
+        navigate(route);
+    }
+
+    let authContext = useContext(AuthContext);
+
+    return (
+        <>
+            <AuthProvider goToRoute={goToRoute}>
+                <RouteProvider user={authContext.user}/>
+            </AuthProvider>
+        </>
+    );
 }
 
 export default App;
