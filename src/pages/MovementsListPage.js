@@ -44,7 +44,7 @@ function MovementsListPage() {
                 </div>
                 <div className={"row mt-3"}>
                     <div className={"col-8 offset-2"}>
-                        {movements.length > 0 && movements.map((mov) => {
+                        {movements && movements.length > 0 && movements.map((mov) => {
                             return (
                                 <div className={"d-flex flex-row align-items-center card shadow my-1 p-3 lh-1"}
                                      onClick={() => openModal(mov)}>
