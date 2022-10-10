@@ -126,10 +126,10 @@ const BottomNavBar = ({routes}) => {
     }
 
     return (
-        <div className={"w-100 d-flex flex-row fixed-bottom justify-content-between shadow-lg"}>
+        <div className={"w-100 d-flex flex-row justify-content-between shadow-lg position-absolute bottom-0 bg-white"}>
             {routesToNavBar().map((route) => {
                 return (
-                    <div className={"col text-center btn btn-light "} key={route.navOrder}>
+                    <div className={"col text-center my-2"} key={route.navOrder}>
                         <RouteButton path={route.path} Icon={route.icon}/>
                     </div>
                 );

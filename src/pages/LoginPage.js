@@ -9,6 +9,7 @@ function LoginPage() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState(null);
 
     const authContext = useContext(AuthContext);
 
@@ -17,65 +18,69 @@ function LoginPage() {
         navigate(route);
     }
 
-    const handleLoginSubmit = (e) => {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
+        setErrors(null);
         let payload = {
             email, password
         };
-        authContext.login(payload);
+        setErrors(await authContext.login(payload));
     }
 
     return (
-        <div className="col-12">
-            <div className={"row pt-5"}>
-                <Logo/>
-            </div>
-            <div className={"row"}>
-                <Form id={"loginForm"} onSubmit={handleLoginSubmit}>
-                    <div className={"col-12"}>
-                        <div className={"row mt-5 w-100"}>
-                            <Form.Group controlId="formBasicEmail" className={"col-10 mx-auto"}>
-                                <Form.Control type="email" placeholder="Email" onChange={(e) => {
-                                    setEmail(e.target.value)
-                                }}/>
-                            </Form.Group>
+        <div className="container">
+            <div className="col-12">
+                <div className={"row pt-5"}>
+                    <Logo/>
+                </div>
+                <div className={"row"}>
+                    <Form id={"loginForm"} onSubmit={handleLoginSubmit}>
+                        <div className={"col-12"}>
+                            <div className={"row mt-5 w-100"}>
+                                <Form.Group controlId="formBasicEmail" className={"col-10 mx-auto"}>
+                                    <Form.Control type="email" placeholder="Email" onChange={(e) => {
+                                        setEmail(e.target.value)
+                                    }}/>
+                                </Form.Group>
+                            </div>
                         </div>
-                    </div>
-                    <div className={"col-12"}>
-                        <div className={"row mt-4 w-100"}>
-                            <Form.Group controlId="formBasicPassword" className={"col-10 mx-auto"}>
-                                <Form.Control type="password" placeholder="Password" className={"mb-1"}
-                                              onChange={(e) => {
-                                                  setPassword(e.target.value)
-                                              }}/>
-                                <div className={"col-12"}>
-                                    <label className={"mx-auto"}>Password dimenticata?</label>
-                                    <Link to={"/reset-password"} className={"ml-3"}>Reimpostala</Link>
+                        <div className={"col-12"}>
+                            <div className={"row mt-4 w-100"}>
+                                <Form.Group controlId="formBasicPassword" className={"col-10 mx-auto"}>
+                                    <Form.Control type="password" placeholder="Password" className={"mb-1"}
+                                                  onChange={(e) => {
+                                                      setPassword(e.target.value)
+                                                  }}/>
+                                    <div className={"col-12"}>
+                                        <label className={"mx-auto"}>Password dimenticata?</label>
+                                        <Link to={"/reset-password"} className={"ml-3"}>Reimpostala</Link>
+                                    </div>
+                                </Form.Group>
+                            </div>
+                        </div>
+                        <div className={"col-12"}>
+                            <div className={"row mt-3 w-100"}>
+                                <Form.Group controlId="formBasicCheckbox" className={"col-10 mx-auto"}>
+                                    <Form.Check type="checkbox" label="Ricordami"/>
+                                </Form.Group>
+                            </div>
+                        </div>
+                        <div className={"col-12"}>
+                            <div className={"row mt-4 w-100"}>
+                                <div className={"col-10 mx-auto mb-1"}>
+                                    {errors && <p className={"text-danger text-center"}> Login fallito</p>}
+                                    <Button className={"w-100 btn btn-primary shadow mx-auto"} type="submit">
+                                        Accedi
+                                    </Button>
                                 </div>
-                            </Form.Group>
-                        </div>
-                    </div>
-                    <div className={"col-12"}>
-                        <div className={"row mt-3 w-100"}>
-                            <Form.Group controlId="formBasicCheckbox" className={"col-10 mx-auto"}>
-                                <Form.Check type="checkbox" label="Ricordami"/>
-                            </Form.Group>
-                        </div>
-                    </div>
-                    <div className={"col-12"}>
-                        <div className={"row mt-4 w-100"}>
-                            <div className={"col-10 mx-auto mb-1"}>
-                                <Button className={"w-100 btn btn-primary shadow mx-auto"} type="submit">
-                                    Accedi
-                                </Button>
-                            </div>
-                            <div className={"col-7 offset-1 mb-4"}>
-                                <label className={"mx-auto"}>Non hai un account?</label>
-                                <Link to={"/register"} className={"ml-3"}>Registrati</Link>
+                                <div className={"col-7 offset-1 mb-4"}>
+                                    <label className={"mx-auto"}>Non hai un account?</label>
+                                    <Link to={"/register"} className={"ml-3"}>Registrati</Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </Form>
+                    </Form>
+                </div>
             </div>
         </div>
     );
