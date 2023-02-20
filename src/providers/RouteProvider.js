@@ -43,7 +43,7 @@ const getRoutesIndexedArray = () => {
         element: MovementsListPage,
         icon: HomeIcon,
         addToNavBar: true,
-        ReactRouteComponent: <Route path={"/"} element={<MovementsListPage/>} key={"route_home"}/>,
+        ReactRouteComponent: <Route path={"/"} element={wrapIntoAuthConsumer(MovementsListPage)} key={"route_home"}/>,
     };
     routes["add"] = {
         path: "/add",
@@ -80,6 +80,14 @@ const getRoutesIndexedArray = () => {
         ReactRouteComponent: <Route path={"/register"} element={<RegisterPage/>} key={"route_register"}/>,
     }
     return routes;
+};
+
+const wrapIntoAuthConsumer = (Elem) => {
+    return (
+        <AuthContext.Consumer>
+            {(state) => <Elem categories={state.categories} movements={state.movements}/>}
+        </AuthContext.Consumer>
+    );
 };
 
 const reactComponentsToArray = () => {
@@ -119,7 +127,9 @@ const BottomNavBar = ({routes}) => {
 
     const RouteButton = ({path, Icon}) => {
         return (
-            <div onClick={() => { goTo(path) }}>
+            <div onClick={() => {
+                goTo(path)
+            }}>
                 <Icon/>
             </div>
         );

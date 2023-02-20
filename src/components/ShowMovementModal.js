@@ -1,10 +1,16 @@
 import {Modal} from "react-bootstrap";
 
-function ShowMovementModal({show, setShow, movement, setSelectedMovement}) {
+function ShowMovementModal({show, setShow, movement, setSelectedMovement, categories = []}) {
 
     const handleClose = () => {
         setShow(false);
         setSelectedMovement(null);
+    }
+
+    const findCategory = (cat_id) => {
+        let cat = categories.find((cat) => cat.id == cat_id);
+
+        return cat ? cat.name : '';
     }
 
     return (
@@ -21,6 +27,10 @@ function ShowMovementModal({show, setShow, movement, setSelectedMovement}) {
                     <label className={"fw-bold"}>Importo:</label>
                     <p className={"ms-2"}>{Math.abs(movement.value)}{movement.currency}</p>
                 </div>
+                <div className={"d-flex flex-row"}>
+                    <label className={"fw-bold"}>Categoria:</label>
+                    <p className={"ms-2"}>{findCategory(movement.category_id)}</p>
+                </div>
                 <div className={"row mt-3"}>
                     <div className={"col-12"}>
                         <label className={"fw-bold"}>Note:</label>
@@ -28,8 +38,6 @@ function ShowMovementModal({show, setShow, movement, setSelectedMovement}) {
                     </div>
                 </div>
             </Modal.Body>
-            <Modal.Footer>
-            </Modal.Footer>
         </Modal>
     );
 }

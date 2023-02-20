@@ -1,39 +1,43 @@
-import {Button, Form} from "react-bootstrap";
-import {useEffect, useState} from "react";
-import moment from "moment";
-import MovementService from "../services/movements"
-import AddCategoryModal from "../components/AddCategoryModal";
 import {useContext} from "react";
+import {useState} from "react";
+import {Button, Form} from "react-bootstrap";
+import moment from "moment";
+import AddCategoryModal from "../components/AddCategoryModal";
 import AuthContext from "../contexts/AuthContext";
+import FormControl from "../components/Form/Input/FormControl";
 
 function ListaMovimentiPage() {
 
     const [value, setValue] = useState();
-    const [type, setType] = useState("+");
-    const [category, setCategory] = useState();
+    const [type, setType] = useState("-");
+
+    const [categoryId, setCategoryId] = useState(null);
     const [date, setDate] = useState(moment(new Date()).format('YYYY-MM-DD'));
+    const [note, setNote] = useState(null);
     const [modalShow, setModalShow] = useState(false);
+    const [errors, setErrors] = useState(null);
 
     const authContext = useContext(AuthContext);
 
-    useEffect(() => {
-        authContext.fetchCategories();
-    }, [])
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         let payload = {
-            value: type === "+" ? +Math.abs(value) : -Math.abs(value),
-            category_id: category,
-            date
+            category_id: categoryId,
+            date,
+            note
         }
 
-        MovementService.create(payload).then((response) => {
-            if (response.status === 201) {
-                authContext.notify("Movimento aggiunto correttamente", "text-success");
+        if (value) {
+            if (type === "+") {
+                payload.value = Math.abs(value);
+            } else {
+                payload.value = -Math.abs(value);
             }
-        });
+        }
+
+        setErrors(null);
+        setErrors(await authContext.addMovement(payload));
     }
 
     return (
@@ -52,11 +56,9 @@ function ListaMovimentiPage() {
                                         <Form.Label>
                                             Tipo di movimento
                                         </Form.Label>
-                                        <Form.Select size="sm" onChange={(e) => {
-                                            setType(e.target.value)
-                                        }}>
-                                            <option value={"+"}>ENTRATA</option>
+                                        <Form.Select size="sm" onChange={(e) => {setType(e.target.value)}} defaultValue={"-"}>
                                             <option value={"-"}>USCITA</option>
+                                            <option value={"+"}>ENTRATA</option>
                                         </Form.Select>
                                     </div>
                                 </div>
@@ -66,24 +68,23 @@ function ListaMovimentiPage() {
                             <div className={"col-10 offset-1"}>
                                 <div className={"row justify-content-around d-flex"}>
                                     <div className={"col-10"}>
-                                        <Form.Label>
-                                            Categoria<Button variant={"primary"} size={"sm"} type={"button"}
-                                                             className={"mx-2"} onClick={() => {
-                                            setModalShow(true)
-                                        }}>+</Button>
+                                        <Form.Label>Categoria
+                                            <Button variant={"primary"} size={"sm"} type={"button"} className={"mx-2"} onClick={() => {setModalShow(true)}}>+</Button>
                                         </Form.Label>
                                         <AuthContext.Consumer>
                                             {
                                                 ({categories}) => (categories &&
                                                     <Form.Select size="sm" onChange={(e) => {
-                                                        setCategory(e.target.value)
-                                                    }}>
-                                                        {categories.map((cat) => {
-                                                            return <option value={cat.id}>{cat.name}</option>
+                                                        setCategoryId(e.target.value)
+                                                    }} defaultValue={null}>
+                                                        <option value={null} key={"option_cat_null"}>Seleziona una categoria...</option>
+                                                        {categories.map((cat, index) => {
+                                                            return <option value={cat.id} key={"option_cat_" + index}>{cat.name}</option>
                                                         })}
                                                     </Form.Select>)
                                             }
                                         </AuthContext.Consumer>
+                                        {errors && errors.category_id && <p className={"text-danger text-center"}>{errors.category_id[0]}</p>}
                                     </div>
 
                                 </div>
@@ -92,18 +93,12 @@ function ListaMovimentiPage() {
                         <div className={"row mt-3"}>
                             <div className={"col-5 offset-1"}>
                                 <Form.Group controlId="formBasicValue">
-                                    <Form.Label>Data movimento</Form.Label>
-                                    <Form.Control type="date" placeholder="DATA" value={date} onChange={(e) => {
-                                        setDate(e.target.value)
-                                    }}/>
+                                    <FormControl changeSetter={setDate} label_text={"Data movimento"} type={"date"} value={date} errors={errors && errors.date ? errors.date : null}/>
                                 </Form.Group>
                             </div>
                             <div className={"col-4 offset-1"}>
                                 <Form.Group controlId="formBasicValue">
-                                    <Form.Label>Importo</Form.Label>
-                                    <Form.Control type="number" placeholder="IMPORTO" onChange={(e) => {
-                                        setValue(e.target.value)
-                                    }}/>
+                                    <FormControl changeSetter={setValue} label_text={"Importo"} type={"number"} value={value} placeholder={"IMPORTO"} errors={errors && errors.value ? errors.value : null}/>
                                 </Form.Group>
                             </div>
                         </div>
@@ -111,7 +106,9 @@ function ListaMovimentiPage() {
                             <div className={"col-10 offset-1"}>
                                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                                     <Form.Label>Note</Form.Label>
-                                    <Form.Control as="textarea" rows={4}/>
+                                    <Form.Control as="textarea" rows={4} onChange={(e) => {
+                                        setNote(e.target.value)
+                                    }}/>
                                 </Form.Group>
                             </div>
                         </div>
@@ -122,8 +119,7 @@ function ListaMovimentiPage() {
                 </div>
             </div>
         </div>
-    )
-        ;
+    );
 }
 
 export default ListaMovimentiPage;

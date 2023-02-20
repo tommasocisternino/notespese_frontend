@@ -4,6 +4,7 @@ import AuthService from "../services/auth";
 import NotificationOverlay from "../components/NotificationOverlay";
 import Loader from "../components/Loader";
 import CategoryService from "../services/categories";
+import MovementService from "../services/movements";
 
 class AuthProvider extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ class AuthProvider extends Component {
         this.state = {
             user: null,
             token: null,
-            categories: null,
+            categories: [],
+            movements: [],
             isLoading: false,
             notifyMessage: null,
             notificationTextClass: "text-primary",
@@ -24,6 +26,11 @@ class AuthProvider extends Component {
             setCategories: (cat) => {
                 this.setState(state => ({
                     categories: cat
+                }))
+            },
+            setMovements: (moves) => {
+                this.setState(state => ({
+                    movements: moves
                 }))
             },
             setToken: (tk) => {
@@ -38,6 +45,7 @@ class AuthProvider extends Component {
                         localStorage.setItem('user', JSON.stringify(response.data.user));
                         this.state.setUser(response.data.user);
                         this.state.setToken(response.data.access_token);
+                        this.state.fetchResources();
                         this.props.goToRoute("/");
                         return false;
                     } else {
@@ -55,6 +63,7 @@ class AuthProvider extends Component {
                         this.state.setUser(response.data.user);
                         this.state.setToken(response.data.access_token);
                         this.props.goToRoute("/");
+                        return false;
                     }
                 }).catch(({response}) => {
                     if (response.status === 422) {
@@ -66,13 +75,13 @@ class AuthProvider extends Component {
                 let token = localStorage.getItem('access_token');
                 if (token !== undefined) {
                     AuthService.logout(token).finally((response) => {
-                        if (response.status !== 200) {
-                            throw response;
+                        if (response.status === 200) {
+                            this.state.setUser(null);
+                            this.state.setToken(null);
+                            localStorage.clear();
+                            this.props.goToRoute("/", {});
                         }
-                        this.state.setUser(null);
-                        this.state.setToken(null);
-                        localStorage.clear();
-                        this.props.goToRoute("/", {});
+                        throw response;
                     });
                 } else {
                     this.state.setToken(null)
@@ -88,16 +97,14 @@ class AuthProvider extends Component {
                         }
                         this.state.setUser(response.data);
                         this.state.setToken(token);
+                        this.state.fetchResources();
                     }).catch(() => {
                         localStorage.clear();
-                        this.state.setToken(null);
-                        this.state.setUser(null);
-                        if (window.location.pathname !== "/login" && !window.location.pathname !== "/register") {
+                        if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
                             this.props.goToRoute("/login", {});
                         }
                     });
                 } else {
-                    this.state.setToken(null)
                     this.state.setUser(null)
                 }
             },
@@ -137,7 +144,7 @@ class AuthProvider extends Component {
                 return CategoryService.create(payload).then((response) => {
                     if (response.status === 201) {
                         let cat = this.state.categories;
-                        cat.push(payload);
+                        cat.push(response.data.category);
                         this.state.setCategories(cat)
                         this.state.notify("Categoria aggiunta correttamente", "text-success");
                         return true;
@@ -146,6 +153,33 @@ class AuthProvider extends Component {
                 }).catch(({response}) => {
                     return response.data.errors;
                 })
+            },
+            fetchMovements: async () => {
+                return await MovementService.index().then((response) => {
+                    this.state.setMovements(response.data.movements)
+                    return (response.data.movements);
+                }).catch(() => {
+                    return ([]);
+                })
+            },
+            addMovement: (payload) => {
+                return MovementService.create(payload).then((response) => {
+                    if (response.status === 201) {
+                        let moves = this.state.movements;
+                        moves.push(response.data.movement);
+                        this.state.setMovements(moves)
+                        this.state.notify("Movimento aggiunto correttamente", "text-success");
+                        return false;
+                    } else {
+                        throw response;
+                    }
+                }).catch(({response}) => {
+                    return response.data.errors;
+                })
+            },
+            fetchResources: async () => {
+                await this.state.fetchCategories();
+                await this.state.fetchMovements();
             },
         }
     };
@@ -158,8 +192,7 @@ class AuthProvider extends Component {
         return (
             <AuthContext.Provider value={this.state}>
                 {this.state.isLoading && <Loader/>}
-                {this.state.notifyMessage &&
-                    <NotificationOverlay text={this.state.notifyMessage} textClass={this.state.notificationTextClass}/>}
+                {this.state.notifyMessage && <NotificationOverlay text={this.state.notifyMessage} textClass={this.state.notificationTextClass}/>}
                 {this.props.children}
             </AuthContext.Provider>
         );
