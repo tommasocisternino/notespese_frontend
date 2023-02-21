@@ -1,6 +1,5 @@
-import {Modal} from "react-bootstrap";
-
-function ShowMovementModal({show, setShow, movement, setSelectedMovement, categories = []}) {
+import {Button, Modal} from "react-bootstrap";
+function ShowMovementModal({show, setShow, movement, setSelectedMovement, categories = [], handleDelete}) {
 
     const handleClose = () => {
         setShow(false);
@@ -35,6 +34,11 @@ function ShowMovementModal({show, setShow, movement, setSelectedMovement, catego
                     <div className={"col-12"}>
                         <label className={"fw-bold"}>Note:</label>
                         <p>{movement.note}</p>
+                    </div>
+                </div>
+                <div className={"row mt-3"}>
+                    <div className={"col-12"}>
+                        <Button color={"danger"} onClick={() => { handleDelete()}}>Elimina</Button>
                     </div>
                 </div>
             </Modal.Body>

@@ -16,9 +16,15 @@ function MovementsListPage({movements}) {
         setSelectedMovement(mov)
     }
 
+    const handleDelete = () => {
+        setShowModal(false);
+        setSelectedMovement(null); //todo continua eliminazioen
+        authContext.deleteMovement(selectedMovement.id);
+    }
+
     return (
         <>
-            {selectedMovement && <ShowMovementModal show={showModal} setShow={setShowModal} movement={selectedMovement} setSelectedMovement={setSelectedMovement} categories={categories}/>}
+            {selectedMovement && <ShowMovementModal show={showModal} setShow={setShowModal} movement={selectedMovement} setSelectedMovement={setSelectedMovement} categories={categories} handleDelete={handleDelete}/>}
             <div className={"container h-100 overflow-scroll pb-5"}>
                 <div className={"row mt-5 text-center"}>
                     <h1>LISTA MOVIMENTI</h1>

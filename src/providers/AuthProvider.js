@@ -177,6 +177,25 @@ class AuthProvider extends Component {
                     return response.data.errors;
                 })
             },
+            deleteMovement: (id) => {
+                return MovementService.delete(id).then((response) => {
+                    if (response.status === 204) {
+                        let moves = this.state.movements;
+                        let index = moves.findIndex((mov) => {
+                            return mov.id === id;
+                        });
+                        console.log(index)
+                        delete moves[index];
+                        this.state.setMovements(moves)
+                        this.state.notify("Movimento eliminato correttamente", "text-success");
+                        return false;
+                    } else {
+                        throw response;
+                    }
+                }).catch(({response}) => {
+                    return response.data.errors;
+                })
+            },
             fetchResources: async () => {
                 await this.state.fetchCategories();
                 await this.state.fetchMovements();
