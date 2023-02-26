@@ -53,10 +53,11 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
 }
 
 .loader{
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.28);
     padding: 0;
     height: 100%;
     width: 100%;
@@ -64,4 +65,5 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
 }

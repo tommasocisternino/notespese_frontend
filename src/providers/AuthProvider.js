@@ -90,19 +90,22 @@ class AuthProvider extends Component {
             },
             checkUser: () => {
                 let token = localStorage.getItem('access_token');
+                this.state.setIsLoading(true);
                 if (token !== undefined) {
-                    AuthService.checkUser(token).then((response) => {
+                    AuthService.checkUser(token).then( async (response) => {
                         if (response.status !== 200) {
                             throw response;
                         }
                         this.state.setUser(response.data);
                         this.state.setToken(token);
-                        this.state.fetchResources();
+                        await this.state.fetchResources();
                     }).catch(() => {
                         localStorage.clear();
                         if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
                             this.props.goToRoute("/login", {});
                         }
+                    }).finally(()=>{
+                        this.state.setIsLoading(false);
                     });
                 } else {
                     this.state.setUser(null)
@@ -174,6 +177,7 @@ class AuthProvider extends Component {
                         throw response;
                     }
                 }).catch(({response}) => {
+                    this.state.notify("Errore durante l'aggiunta del movimento", "text-danger");
                     return response.data.errors;
                 })
             },
@@ -181,11 +185,9 @@ class AuthProvider extends Component {
                 return MovementService.delete(id).then((response) => {
                     if (response.status === 204) {
                         let moves = this.state.movements;
-                        let index = moves.findIndex((mov) => {
-                            return mov.id === id;
+                         moves = moves.filter(function(mov){
+                            return mov.id !== id;
                         });
-                        console.log(index)
-                        delete moves[index];
                         this.state.setMovements(moves)
                         this.state.notify("Movimento eliminato correttamente", "text-success");
                         return false;
@@ -193,6 +195,7 @@ class AuthProvider extends Component {
                         throw response;
                     }
                 }).catch(({response}) => {
+                    this.state.notify("Errore durante l'eliminazione del movimento", "text-danger");
                     return response.data.errors;
                 })
             },
