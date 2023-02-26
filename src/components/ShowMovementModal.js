@@ -37,8 +37,8 @@ function ShowMovementModal({show, setShow, movement, setSelectedMovement, catego
                     </div>
                 </div>
                 <div className={"row mt-3"}>
-                    <div className={"col-12"}>
-                        <Button color={"danger"} onClick={() => { handleDelete()}}>Elimina</Button>
+                    <div className={"col-4 offset-4"}>
+                        <Button variant={"danger"} onClick={() => { handleDelete()}}>Elimina</Button>
                     </div>
                 </div>
             </Modal.Body>
