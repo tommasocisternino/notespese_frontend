@@ -55,7 +55,9 @@ function ListaMovimentiPage() {
               <div className={"col-10 offset-1"}>
                 <div className={"row justify-content-around d-flex"}>
                   <div className={"col-10"}>
-                    <Form.Label>Tipo di movimento</Form.Label>
+                    <Form.Label className={"fw-bolder"}>
+                      Tipo di movimento
+                    </Form.Label>
                     <Form.Select
                       size="sm"
                       onChange={(e) => {
@@ -74,7 +76,7 @@ function ListaMovimentiPage() {
               <div className={"col-10 offset-1"}>
                 <div className={"row justify-content-around d-flex"}>
                   <div className={"col-10"}>
-                    <Form.Label>
+                    <Form.Label className={"fw-bolder"}>
                       Categoria
                       <Button
                         variant={"primary"}
@@ -149,6 +151,7 @@ function ListaMovimentiPage() {
                   <FormControl
                     changeSetter={setDate}
                     label_text={"Data movimento"}
+                    label_className={"fw-bolder"}
                     type={"date"}
                     value={date}
                     errors={errors && errors.date ? errors.date : null}
@@ -163,6 +166,7 @@ function ListaMovimentiPage() {
                     type={"number"}
                     value={value}
                     placeholder={"IMPORTO"}
+                    label_className={"fw-bolder"}
                     errors={errors && errors.value ? errors.value : null}
                   />
                 </Form.Group>
@@ -174,7 +178,7 @@ function ListaMovimentiPage() {
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
-                  <Form.Label>Note</Form.Label>
+                  <Form.Label className={"fw-bolder"}>Note</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={4}
