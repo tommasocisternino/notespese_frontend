@@ -8,16 +8,18 @@ import FormControl from "../components/Form/Input/FormControl";
 import { ReactComponent as PencilIcon } from "../assets/icons/pencil.svg";
 import { ReactComponent as PlusIcon } from "../assets/icons/plus.svg";
 import { ReactComponent as MinusIcon } from "../assets/icons/minus.svg";
+import DeleteCategoryModal from "../components/DeleteCategoryModal";
 
 function ListaMovimentiPage() {
   const [value, setValue] = useState();
   const [type, setType] = useState("-");
 
-  const [categoryId, setCategoryId] = useState(null);
+  const [categoryId, setCategoryId] = useState("");
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const [note, setNote] = useState(null);
+  const [note, setNote] = useState("");
   const [modalShow, setModalShow] = useState(false);
-  const [errors, setErrors] = useState(null);
+  const [deleteModalShow, setDeleteModalShow] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const authContext = useContext(AuthContext);
 
@@ -38,21 +40,28 @@ function ListaMovimentiPage() {
       }
     }
 
-    setErrors(null);
+    setErrors([]);
     setErrors(await authContext.addMovement(payload));
   };
 
   return (
     <div className={"container h-100"}>
       <AddCategoryModal show={modalShow} setShow={setModalShow} />
+      <DeleteCategoryModal
+        selectedCategoryId={categoryId}
+        setCategoryId={setCategoryId}
+        show={deleteModalShow}
+        setShow={setDeleteModalShow}
+      />
       <div className={"row"}>
         <div className={"col-12"}>
           <Form onSubmit={handleSubmit}>
             <div className={"row mt-5 pb-5 text-center"}>
               <h1>AGGIUNGI MOVIMENTO</h1>
             </div>
-            <div className={"row mt-5"}>
+            <div className={"row mt-3"}>
               <div className={"col-10 offset-1"}>
+                <hr />
                 <div className={"row justify-content-around d-flex"}>
                   <div className={"col-10"}>
                     <Form.Label className={"fw-bolder"}>
@@ -88,26 +97,32 @@ function ListaMovimentiPage() {
                       >
                         <PlusIcon width={16} height={16} />
                       </Button>
-                      <Button
-                        variant={"danger"}
-                        type={"button"}
-                        className={"mx-2"}
-                        onClick={() => {
-                          setModalShow(true);
-                        }}
-                      >
-                        <MinusIcon width={16} height={16} />
-                      </Button>
-                      <Button
-                        variant={"warning"}
-                        type={"button"}
-                        className={"mx-2"}
-                        onClick={() => {
-                          setModalShow(true);
-                        }}
-                      >
-                        <PencilIcon width={16} height={16} />
-                      </Button>
+                      {categoryId != 0 ? (
+                        <>
+                          <Button
+                            variant={"danger"}
+                            type={"button"}
+                            className={"mx-2"}
+                            onClick={() => {
+                              setDeleteModalShow(true);
+                            }}
+                          >
+                            <MinusIcon width={16} height={16} />
+                          </Button>
+                          <Button
+                            variant={"warning"}
+                            type={"button"}
+                            className={"mx-2"}
+                            onClick={() => {
+                              setModalShow(true);
+                            }}
+                          >
+                            <PencilIcon width={16} height={16} />
+                          </Button>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                     </Form.Label>
                     <AuthContext.Consumer>
                       {({ categories }) =>
@@ -119,7 +134,7 @@ function ListaMovimentiPage() {
                             }}
                             defaultValue={null}
                           >
-                            <option value={null} key={"option_cat_null"}>
+                            <option value={0} key={"option_cat_null"}>
                               Seleziona una categoria...
                             </option>
                             {categories.map((cat, index) => {

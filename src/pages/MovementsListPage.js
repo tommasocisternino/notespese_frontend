@@ -51,7 +51,7 @@ function MovementsListPage({ movements }) {
         />
       )}
       <div className={"container h-100 overflow-scroll pb-5"}>
-        <div className={"row mt-5 text-center"}>
+        <div className={"row mt-5 pb-5 text-center"}>
           <h1>LISTA MOVIMENTI</h1>
         </div>
         <div className={"row mt-3"}>
