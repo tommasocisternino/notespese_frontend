@@ -128,7 +128,7 @@ function RegisterPage() {
               <div className={"col-7 offset-1 mb-4"}>
                 <label className={"mx-auto"}>Hai già un account?</label>
                 <Link to={"/login"} className={"ml-3"}>
-                  Registrati
+                  Accedi
                 </Link>
               </div>
             </div>

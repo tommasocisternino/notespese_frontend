@@ -51,20 +51,20 @@ function LoginPage() {
                                                   onChange={(e) => {
                                                       setPassword(e.target.value)
                                                   }}/>
-                                    <div className={"col-12"}>
-                                        <label className={"mx-auto"}>Password dimenticata?</label>
-                                        <Link to={"/reset-password"} className={"ml-3"}>Reimpostala</Link>
-                                    </div>
+                                    {/*<div className={"col-12"}>*/}
+                                    {/*    <label className={"mx-auto"}>Password dimenticata?</label>*/}
+                                    {/*    <Link to={"/reset-password"} className={"ml-3"}>Reimpostala</Link>*/}
+                                    {/*</div>*/}
                                 </Form.Group>
                             </div>
                         </div>
-                        <div className={"col-12"}>
-                            <div className={"row mt-3 w-100"}>
-                                <Form.Group className={"col-10 mx-auto"}>
-                                    <Form.Check type="checkbox" label="Ricordami"/>
-                                </Form.Group>
-                            </div>
-                        </div>
+                        {/*<div className={"col-12"}>*/}
+                        {/*    <div className={"row mt-3 w-100"}>*/}
+                        {/*        <Form.Group className={"col-10 mx-auto"}>*/}
+                        {/*            <Form.Check type="checkbox" label="Ricordami"/>*/}
+                        {/*        </Form.Group>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                         <div className={"col-12"}>
                             <div className={"row mt-4 w-100"}>
                                 <div className={"col-10 mx-auto mb-1"}>
