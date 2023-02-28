@@ -12,6 +12,7 @@ Run:
     npm install 
     npm start
 ## INSTALLATION WITH DOCKER
+Copy **_.env.example_** and name it as **_.env_**
 Run
 
     docker-compose up -d --build
