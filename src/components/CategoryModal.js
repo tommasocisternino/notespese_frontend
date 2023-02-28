@@ -64,7 +64,7 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
         <Modal.Title>
           {!isCreating && category && category.id
             ? "Modifica Categoria"
-            : "Aggiungi Categoria"}{" "}
+            : "Aggiungi Categoria"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -118,8 +118,9 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
               : handleSubmit
           }
         >
-          {isCreating && category && category != 0  ? "Aggiungi" : "Modifica"}
-        </Button>
+          {!isCreating && category && category.id
+              ? "Modifica"
+              : "Aggiungi"}        </Button>
       </Modal.Footer>
     </Modal>
   );
