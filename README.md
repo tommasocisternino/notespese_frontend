@@ -9,7 +9,8 @@ Report bug or simply give me suggestions to improve my skills at my [GITHUB REPO
 ## BASIC INSTALLATION
 Run:
 
-    npm install npm start
+    npm install 
+    npm start
 ## INSTALLATION WITH DOCKER
 Run
 
