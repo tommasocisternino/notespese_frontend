@@ -118,7 +118,7 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
               : handleSubmit
           }
         >
-          Aggiungi
+          {isCreating && category && category != 0  ? "Aggiungi" : "Modifica"}
         </Button>
       </Modal.Footer>
     </Modal>
