@@ -39,6 +39,7 @@ class AuthProvider extends Component {
         }));
       },
       login: async (payload) => {
+        this.state.setIsLoading(true);
         return await AuthService.login(payload)
           .then((response) => {
             if (response.status === 200) {
@@ -55,9 +56,13 @@ class AuthProvider extends Component {
           })
           .catch((err) => {
             return err;
+          })
+          .finally(() => {
+            this.state.setIsLoading(false);
           });
       },
       register: async (payload) => {
+        this.state.setIsLoading(true);
         return await AuthService.register(payload)
           .then((response) => {
             if (response.status === 201) {
@@ -65,7 +70,11 @@ class AuthProvider extends Component {
               localStorage.setItem("user", JSON.stringify(response.data.user));
               this.state.setUser(response.data.user);
               this.state.setToken(response.data.access_token);
-              this.props.goToRoute("/");
+              this.props.goToRoute("/login");
+              this.state.notify(
+                "Registrazione effettuata. Effettua il login",
+                "text-success"
+              );
               return false;
             }
           })
@@ -73,6 +82,9 @@ class AuthProvider extends Component {
             if (response.status === 422) {
               return response.data.errors ?? false;
             }
+          })
+          .finally(() => {
+            this.state.setIsLoading(false);
           });
       },
       logout: async () => {
@@ -164,6 +176,31 @@ class AuthProvider extends Component {
               this.state.setCategories(cat);
               this.state.notify(
                 "Categoria aggiunta correttamente",
+                "text-success"
+              );
+              return true;
+            }
+            throw response;
+          })
+          .catch(({ response }) => {
+            return response.data.errors;
+          });
+      },
+      updateCategory: (payload) => {
+        return CategoryService.update(payload)
+          .then((response) => {
+            if (response.status === 200) {
+              let cat = this.state.categories;
+              let cats = cat.map(function (cat) {
+                if (cat.id == payload.id) {
+                  return response.data.category;
+                }
+                return cat;
+              });
+              this.state.setCategories(cats);
+
+              this.state.notify(
+                "Categoria modificata correttamente",
                 "text-success"
               );
               return true;

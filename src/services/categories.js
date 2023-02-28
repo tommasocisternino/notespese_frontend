@@ -23,6 +23,18 @@ const CategoryService = {
       },
     });
   },
+  update: (payload) => {
+    let url =
+      process.env.REACT_APP_BACKEND_URL +
+      process.env.REACT_APP_API_URL +
+      process.env.REACT_APP_CATEGORY_API_URL +
+      payload.id;
+    return axios.patch(url, payload, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+  },
   delete: (id) => {
     let url =
       process.env.REACT_APP_BACKEND_URL +

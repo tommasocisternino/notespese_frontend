@@ -4,7 +4,7 @@ import AuthContext from "../contexts/AuthContext";
 
 function DeleteCategoryModal({
   selectedCategoryId,
-  setCategoryId,
+  setCategory,
   show,
   setShow,
 }) {
@@ -21,7 +21,7 @@ function DeleteCategoryModal({
     e.preventDefault();
     authContext.deleteCategory(selectedCategoryId).then((response) => {
       if (response === true) {
-        setCategoryId("");
+        setCategory(null);
       }
       handleClose();
     });

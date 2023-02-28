@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import moment from "moment";
-import AddCategoryModal from "../components/AddCategoryModal";
+import CategoryModal from "../components/CategoryModal";
 import AuthContext from "../contexts/AuthContext";
 import FormControl from "../components/Form/Input/FormControl";
 import { ReactComponent as PencilIcon } from "../assets/icons/pencil.svg";
@@ -14,10 +14,11 @@ function ListaMovimentiPage() {
   const [value, setValue] = useState();
   const [type, setType] = useState("-");
 
-  const [categoryId, setCategoryId] = useState("");
+  const [category, setCategory] = useState(null);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [note, setNote] = useState("");
   const [modalShow, setModalShow] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
   const [deleteModalShow, setDeleteModalShow] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -27,7 +28,7 @@ function ListaMovimentiPage() {
     e.preventDefault();
 
     let payload = {
-      category_id: categoryId,
+      category_id: category && category != 0 ? category.id : null,
       date,
       note,
     };
@@ -46,10 +47,16 @@ function ListaMovimentiPage() {
 
   return (
     <div className={"container h-100"}>
-      <AddCategoryModal show={modalShow} setShow={setModalShow} />
+      <CategoryModal
+        isCreating={isCreating}
+        setIsCreating={setIsCreating}
+        category={category}
+        show={modalShow}
+        setShow={setModalShow}
+      />
       <DeleteCategoryModal
-        selectedCategoryId={categoryId}
-        setCategoryId={setCategoryId}
+        selectedCategoryId={category && category != 0 ? category.id : 0}
+        setCategory={setCategory}
         show={deleteModalShow}
         setShow={setDeleteModalShow}
       />
@@ -92,12 +99,13 @@ function ListaMovimentiPage() {
                         type={"button"}
                         className={"mx-2"}
                         onClick={() => {
+                          setIsCreating(true);
                           setModalShow(true);
                         }}
                       >
                         <PlusIcon width={16} height={16} />
                       </Button>
-                      {categoryId != 0 ? (
+                      {category && category != 0 ? (
                         <>
                           <Button
                             variant={"danger"}
@@ -130,7 +138,17 @@ function ListaMovimentiPage() {
                           <Form.Select
                             size="sm"
                             onChange={(e) => {
-                              setCategoryId(e.target.value);
+                              if (e.target.value != 0) {
+                                setCategory({
+                                  id: e.target.value,
+                                  name: e.target.selectedOptions[0].dataset
+                                    .text,
+                                  color:
+                                    e.target.selectedOptions[0].dataset.color,
+                                });
+                              } else {
+                                setCategory(null);
+                              }
                             }}
                             defaultValue={null}
                           >
@@ -142,6 +160,8 @@ function ListaMovimentiPage() {
                                 <option
                                   value={cat.id}
                                   key={"option_cat_" + index}
+                                  data-text={cat.name}
+                                  data-color={cat.color}
                                 >
                                   {cat.name}
                                 </option>
