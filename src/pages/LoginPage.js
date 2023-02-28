@@ -37,7 +37,7 @@ function LoginPage() {
                     <Form id={"loginForm"} onSubmit={handleLoginSubmit}>
                         <div className={"col-12"}>
                             <div className={"row mt-5 w-100"}>
-                                <Form.Group controlId="formBasicEmail" className={"col-10 mx-auto"}>
+                                <Form.Group className={"col-10 mx-auto"}>
                                     <Form.Control type="email" placeholder="Email" onChange={(e) => {
                                         setEmail(e.target.value)
                                     }}/>
@@ -46,7 +46,7 @@ function LoginPage() {
                         </div>
                         <div className={"col-12"}>
                             <div className={"row mt-4 w-100"}>
-                                <Form.Group controlId="formBasicPassword" className={"col-10 mx-auto"}>
+                                <Form.Group className={"col-10 mx-auto"}>
                                     <Form.Control type="password" placeholder="Password" className={"mb-1"}
                                                   onChange={(e) => {
                                                       setPassword(e.target.value)
@@ -60,7 +60,7 @@ function LoginPage() {
                         </div>
                         <div className={"col-12"}>
                             <div className={"row mt-3 w-100"}>
-                                <Form.Group controlId="formBasicCheckbox" className={"col-10 mx-auto"}>
+                                <Form.Group className={"col-10 mx-auto"}>
                                     <Form.Check type="checkbox" label="Ricordami"/>
                                 </Form.Group>
                             </div>

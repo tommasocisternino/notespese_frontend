@@ -182,7 +182,7 @@ function ListaMovimentiPage() {
             </div>
             <div className={"row mt-3"}>
               <div className={"col-5 offset-1"}>
-                <Form.Group controlId="formBasicValue">
+                <Form.Group>
                   <FormControl
                     changeSetter={setDate}
                     label_text={"Data movimento"}
@@ -194,7 +194,7 @@ function ListaMovimentiPage() {
                 </Form.Group>
               </div>
               <div className={"col-4 offset-1"}>
-                <Form.Group controlId="formBasicValue">
+                <Form.Group >
                   <FormControl
                     changeSetter={setValue}
                     label_text={"Importo"}
@@ -211,7 +211,6 @@ function ListaMovimentiPage() {
               <div className={"col-10 offset-1"}>
                 <Form.Group
                   className="mb-3"
-                  controlId="exampleForm.ControlTextarea1"
                 >
                   <Form.Label className={"fw-bolder"}>Note</Form.Label>
                   <Form.Control

@@ -39,7 +39,6 @@ function RegisterPage() {
           <div className={"col-12"}>
             <div className={"row mt-5 w-100"}>
               <Form.Group
-                controlId="formBasicUsername"
                 className={"col-10 mx-auto"}
               >
                 <Form.Control
@@ -59,7 +58,6 @@ function RegisterPage() {
           <div className={"col-12"}>
             <div className={"row mt-3 w-100"}>
               <Form.Group
-                controlId="formBasicEmail"
                 className={"col-10 mx-auto"}
               >
                 <Form.Control
@@ -79,7 +77,6 @@ function RegisterPage() {
           <div className={"col-12"}>
             <div className={"row mt-3 w-100"}>
               <Form.Group
-                controlId="formBasicPassword"
                 className={"col-10 mx-auto"}
               >
                 <Form.Control
@@ -99,7 +96,6 @@ function RegisterPage() {
           <div className={"col-12"}>
             <div className={"row mt-3 w-100"}>
               <Form.Group
-                controlId="formBasicPasswordConfirm"
                 className={"col-10 mx-auto"}
               >
                 <Form.Control

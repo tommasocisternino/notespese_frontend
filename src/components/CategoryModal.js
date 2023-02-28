@@ -68,7 +68,6 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
           <div className={"col-10 offset-1"}>
             <Form.Group
               className="mb-3"
-              controlId="exampleForm.ControlTextarea1"
             >
               <Form.Label>Nome categoria</Form.Label>
               <Form.Control

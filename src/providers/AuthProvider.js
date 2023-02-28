@@ -70,12 +70,11 @@ class AuthProvider extends Component {
               localStorage.setItem("user", JSON.stringify(response.data.user));
               this.state.setUser(response.data.user);
               this.state.setToken(response.data.access_token);
-              this.props.goToRoute("/login");
               this.state.notify(
                 "Registrazione effettuata. Effettua il login",
                 "text-success"
               );
-              return false;
+              this.props.goToRoute("/login");
             }
           })
           .catch(({ response }) => {
