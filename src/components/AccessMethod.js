@@ -13,7 +13,7 @@ const AccessMethod = () => {
     return (
         <div className={"col-12"}>
             <div className={"row mt-3"}>
-                <div className={"col-12"}>
+                <div className={"w-50"}>
                     <Logo/>
                 </div>
             </div>
