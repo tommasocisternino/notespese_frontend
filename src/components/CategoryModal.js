@@ -52,6 +52,10 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
     setColor(
       !isCreating && category && category.color ? category.color : "#FFFFFF"
     );
+
+    setName(
+      !isCreating && category && category.name ? category.name : ""
+    );
   }, [show]);
 
   return (
@@ -76,6 +80,7 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
+                value={name}
               />
               {errors && errors.name && (
                 <p className={"text-danger"}> {errors.name[0]}</p>
