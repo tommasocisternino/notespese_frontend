@@ -14,7 +14,7 @@ function ListaMovimentiPage() {
   const [value, setValue] = useState();
   const [type, setType] = useState("-");
 
-  const [category, setCategory] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [note, setNote] = useState("");
   const [modalShow, setModalShow] = useState(false);
@@ -28,7 +28,7 @@ function ListaMovimentiPage() {
     e.preventDefault();
 
     let payload = {
-      category_id: category && category != 0 ? category.id : null,
+      category_id: categoryId,
       date,
       note,
     };
@@ -50,15 +50,15 @@ function ListaMovimentiPage() {
       <CategoryModal
         isCreating={isCreating}
         setIsCreating={setIsCreating}
-        category={category}
+        categoryId={categoryId}
         show={modalShow}
         setShow={setModalShow}
       />
       <DeleteCategoryModal
-        setCategory={setCategory}
+        setCategoryId={setCategoryId}
         show={deleteModalShow}
         setShow={setDeleteModalShow}
-        category={category}
+        categoryId={categoryId}
       />
       <div className={"container h-100"}>
         <div className={"row"}>
@@ -106,7 +106,7 @@ function ListaMovimentiPage() {
                         >
                           <PlusIcon width={16} height={16} />
                         </Button>
-                        {category && category != 0 ? (
+                        {categoryId && categoryId !== 0 ? (
                           <>
                             <Button
                               variant={"danger"}
@@ -140,15 +140,16 @@ function ListaMovimentiPage() {
                               size="sm"
                               onChange={(e) => {
                                 if (e.target.value != 0) {
-                                  setCategory({
-                                    id: e.target.value,
-                                    name: e.target.selectedOptions[0].dataset
-                                      .text,
-                                    color:
-                                      e.target.selectedOptions[0].dataset.color,
-                                  });
+                                  // setCategory({
+                                  //   id: e.target.value,
+                                  //   name: e.target.selectedOptions[0].dataset
+                                  //     .text,
+                                  //   color:
+                                  //     e.target.selectedOptions[0].dataset.color,
+                                  // });
+                                  setCategoryId(e.target.value);
                                 } else {
-                                  setCategory(null);
+                                  setCategoryId(null);
                                 }
                               }}
                               defaultValue={null}

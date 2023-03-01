@@ -3,11 +3,21 @@ import { HexColorPicker } from "react-colorful";
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../contexts/AuthContext";
 
-function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
+function CategoryModal({
+  isCreating,
+  setIsCreating,
+  categoryId,
+  show,
+  setShow,
+}) {
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [errors, setErrors] = useState();
   const authContext = useContext(AuthContext);
+
+  let category = authContext.categories.find((cat) => {
+    return categoryId == cat.id;
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,9 +63,7 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
       !isCreating && category && category.color ? category.color : "#FFFFFF"
     );
 
-    setName(
-      !isCreating && category && category.name ? category.name : ""
-    );
+    setName(!isCreating && category && category.name ? category.name : "");
   }, [show]);
 
   return (
@@ -70,9 +78,7 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
       <Modal.Body>
         <div className={"row mt-3"}>
           <div className={"col-10 offset-1"}>
-            <Form.Group
-              className="mb-3"
-            >
+            <Form.Group className="mb-3">
               <Form.Label>Nome categoria</Form.Label>
               <Form.Control
                 placeholder="Nome categoria"
@@ -118,9 +124,8 @@ function CategoryModal({ isCreating, setIsCreating, category, show, setShow }) {
               : handleSubmit
           }
         >
-          {!isCreating && category && category.id
-              ? "Modifica"
-              : "Aggiungi"}        </Button>
+          {!isCreating && category && category.id ? "Modifica" : "Aggiungi"}{" "}
+        </Button>
       </Modal.Footer>
     </Modal>
   );

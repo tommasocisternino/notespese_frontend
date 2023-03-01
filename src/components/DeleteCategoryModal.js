@@ -2,8 +2,12 @@ import { Button, Modal } from "react-bootstrap";
 import { useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 
-function DeleteCategoryModal({ setCategory, show, setShow, category }) {
+function DeleteCategoryModal({ setCategoryId, show, setShow, categoryId }) {
   const authContext = useContext(AuthContext);
+
+  let category = authContext.categories.find((cat) => {
+    return categoryId == cat.id;
+  });
 
   let hasMov = false;
   authContext.movements.map((mov) => {
@@ -16,7 +20,7 @@ function DeleteCategoryModal({ setCategory, show, setShow, category }) {
     e.preventDefault();
     authContext.deleteCategory(category?.id).then((response) => {
       if (response === true) {
-        setCategory(null);
+        setCategoryId(0);
       }
       handleClose();
     });
