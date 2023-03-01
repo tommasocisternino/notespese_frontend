@@ -87,20 +87,16 @@ class AuthProvider extends Component {
           });
       },
       logout: async () => {
+        this.state.setIsLoading(true);
         let token = localStorage.getItem("access_token");
         if (token !== undefined) {
-          AuthService.logout(token).finally((response) => {
-            if (response.status === 200) {
-              this.state.setUser(null);
-              this.state.setToken(null);
-              localStorage.clear();
-              this.props.goToRoute("/", {});
-            }
-            throw response;
+          await AuthService.logout(token).finally(() => {
+            this.state.setUser(null);
+            this.state.setToken(null);
+            localStorage.clear();
+            this.state.setIsLoading(false);
+            this.props.goToRoute("/login", {});
           });
-        } else {
-          this.state.setToken(null);
-          this.state.setUser(null);
         }
       },
       checkUser: () => {
@@ -294,7 +290,10 @@ class AuthProvider extends Component {
       fetchResources: async () => {
         // await this.state.fetchCategories();
         // await this.state.fetchMovements();
-        await Promise.all([this.state.fetchCategories(), this.state.fetchMovements()]);
+        await Promise.all([
+          this.state.fetchCategories(),
+          this.state.fetchMovements(),
+        ]);
       },
     };
   }

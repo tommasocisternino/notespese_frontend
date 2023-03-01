@@ -67,3 +67,7 @@ body {
     justify-content: center;
     z-index: 1000;
 }
+
+.w-125px{
+    width: 135px!important;
+}
