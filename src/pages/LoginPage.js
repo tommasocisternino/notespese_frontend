@@ -29,8 +29,8 @@ function LoginPage() {
 
     return (
         <div className="container">
-            <div className="col-12">
-                <div className={"row pt-5"}>
+            <div className="col-12 col-md-6 offset-md-3">
+                <div className={"row pt-5 px-5"}>
                     <Logo/>
                 </div>
                 <div className={"row"}>

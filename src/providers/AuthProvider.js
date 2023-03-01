@@ -292,8 +292,9 @@ class AuthProvider extends Component {
           });
       },
       fetchResources: async () => {
-        await this.state.fetchCategories();
-        await this.state.fetchMovements();
+        // await this.state.fetchCategories();
+        // await this.state.fetchMovements();
+        await Promise.all([this.state.fetchCategories(), this.state.fetchMovements()]);
       },
     };
   }

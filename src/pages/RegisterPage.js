@@ -1,8 +1,9 @@
 import Logo from "../components/Logo";
 import { Button, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "../contexts/AuthContext";
+import {ReactComponent as InfoIcon} from "../assets/icons/info.svg";
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -30,8 +31,9 @@ function RegisterPage() {
   };
 
   return (
-    <div className="col-12">
-      <div className={"row pt-5"}>
+    <div className="container">
+      <div className="col-12 col-md-6 offset-md-3">
+      <div className={"row pt-5 px-5"}>
         <Logo />
       </div>
       <div className={"row"}>
@@ -87,6 +89,13 @@ function RegisterPage() {
                     setPassword(e.target.value);
                   }}
                 />
+                <div className="row mt-1">
+                  <div className="col-1">
+                    <InfoIcon width={12} height={12} />
+                  </div>
+                  <div className="col-11"><small>La password deve avere una lunghezza minima di 8 caratteri e contenere
+                    almeno una lettera maiuscola, una minuscola, un carattere speciale e un numero.</small></div>
+                </div>
                 {errors && errors.password && (
                   <p className={"text-danger"}> {errors.password[0]}</p>
                 )}
@@ -135,6 +144,7 @@ function RegisterPage() {
           </div>
         </Form>
       </div>
+    </div>
     </div>
   );
 }
