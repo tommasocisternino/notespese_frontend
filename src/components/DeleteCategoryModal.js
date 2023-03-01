@@ -7,6 +7,7 @@ function DeleteCategoryModal({
   setCategory,
   show,
   setShow,
+  category,
 }) {
   const authContext = useContext(AuthContext);
 
@@ -38,7 +39,7 @@ function DeleteCategoryModal({
       </Modal.Header>
       <Modal.Body>
         <div className={"row mt-3"}>
-          <div className={"col-10 offset-1"}>
+          <div className={"col-12"}>
             <div className={"d-flex flex-column align-items-center"}>
               {hasMov ? (
                 <p className={"mx-auto"}>
@@ -46,7 +47,9 @@ function DeleteCategoryModal({
                   collegati.
                 </p>
               ) : (
-                <p className={"mx-auto"}>Vuoi eliminare questa categoria?</p>
+                <p className={"mx-auto"}>
+                  Vuoi eliminare la categoria <b>{category?.name}</b> ?
+                </p>
               )}
             </div>
           </div>

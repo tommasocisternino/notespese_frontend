@@ -59,6 +59,7 @@ function ListaMovimentiPage() {
         setCategory={setCategory}
         show={deleteModalShow}
         setShow={setDeleteModalShow}
+        category={category}
       />
       <div className={"container h-100"}>
         <div className={"row"}>
