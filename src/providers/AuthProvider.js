@@ -249,7 +249,8 @@ class AuthProvider extends Component {
             return [];
           });
       },
-      addMovement: (payload) => {
+      addMovement: async (payload) => {
+        await this.state.setIsLoading(true);
         return MovementService.create(payload)
           .then((response) => {
             if (response.status === 201) {
@@ -271,9 +272,14 @@ class AuthProvider extends Component {
               "text-danger"
             );
             return response.data.errors;
+          })
+          .finally(async () => {
+            await this.state.setIsLoading(false);
           });
       },
-      deleteMovement: (id) => {
+      deleteMovement: async (id) => {
+        await this.state.setIsLoading(true);
+
         return MovementService.delete(id)
           .then((response) => {
             if (response.status === 204) {
@@ -297,6 +303,9 @@ class AuthProvider extends Component {
               "text-danger"
             );
             return response.data.errors;
+          })
+          .finally(async () => {
+            await this.state.setIsLoading(false);
           });
       },
       fetchResources: async () => {
