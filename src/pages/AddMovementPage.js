@@ -55,7 +55,6 @@ function ListaMovimentiPage() {
         setShow={setModalShow}
       />
       <DeleteCategoryModal
-        selectedCategoryId={category && category != 0 ? category.id : 0}
         setCategory={setCategory}
         show={deleteModalShow}
         setShow={setDeleteModalShow}

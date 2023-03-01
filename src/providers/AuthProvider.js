@@ -163,6 +163,7 @@ class AuthProvider extends Component {
           });
       },
       addCategory: (payload) => {
+        this.state.setIsLoading(true);
         return CategoryService.create(payload)
           .then((response) => {
             if (response.status === 201) {
@@ -179,9 +180,13 @@ class AuthProvider extends Component {
           })
           .catch(({ response }) => {
             return response.data.errors;
+          })
+          .finally(async () => {
+            await this.state.setIsLoading(false);
           });
       },
       updateCategory: (payload) => {
+        this.state.setIsLoading(true);
         return CategoryService.update(payload)
           .then((response) => {
             if (response.status === 200) {
@@ -204,9 +209,13 @@ class AuthProvider extends Component {
           })
           .catch(({ response }) => {
             return response.data.errors;
+          })
+          .finally(async () => {
+            await this.state.setIsLoading(false);
           });
       },
       deleteCategory: (id) => {
+        this.state.setIsLoading(true);
         return CategoryService.delete(id)
           .then((response) => {
             if (response.status === 204) {
@@ -225,6 +234,9 @@ class AuthProvider extends Component {
           })
           .catch(({ response }) => {
             return response.data.errors;
+          })
+          .finally(async () => {
+            await this.state.setIsLoading(false);
           });
       },
       fetchMovements: async () => {
