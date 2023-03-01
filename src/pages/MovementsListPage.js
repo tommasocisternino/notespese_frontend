@@ -38,6 +38,16 @@ function MovementsListPage({ movements }) {
       });
   };
 
+  const getMovementWithColor = (mov) => {
+    console.log(mov);
+    let cat = authContext.categories.find((cat) => cat.id == mov.category_id);
+    if (cat) {
+      mov.category_color = cat.color;
+      return mov;
+    }
+    return mov;
+  };
+
   return (
     <>
       {selectedMovement && (
@@ -63,7 +73,7 @@ function MovementsListPage({ movements }) {
                   return (
                     <MovementCard
                       key={"mov_" + index}
-                      movement={mov}
+                      movement={getMovementWithColor(mov)}
                       openModal={openModal}
                     />
                   );

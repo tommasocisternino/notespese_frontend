@@ -71,3 +71,8 @@ body {
 .w-125px{
     width: 135px!important;
 }
+
+.category-color-square{
+    height: 20px;
+    width: 20px;
+}
