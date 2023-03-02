@@ -66,6 +66,7 @@ function MovementsListPage({ movements }) {
             <div className={"row mt-5 pb-5 text-center"}>
               <h1>LISTA MOVIMENTI</h1>
             </div>
+            <div className={"row mt-3"}>
             <div className={"col-10 offset-1"}>
               <hr />
               {movements && movements.length > 0 ? (
@@ -98,6 +99,7 @@ function MovementsListPage({ movements }) {
                 </div>
               )}
             </div>
+          </div>
           </div>
         </div>
       </div>
