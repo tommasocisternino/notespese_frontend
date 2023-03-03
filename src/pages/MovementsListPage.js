@@ -39,7 +39,6 @@ function MovementsListPage({ movements }) {
   };
 
   const getMovementWithColor = (mov) => {
-    console.log(mov);
     let cat = authContext.categories.find((cat) => cat.id == mov.category_id);
     if (cat) {
       mov.category_color = cat.color;
@@ -67,39 +66,39 @@ function MovementsListPage({ movements }) {
               <h1>LISTA MOVIMENTI</h1>
             </div>
             <div className={"row mt-3"}>
-            <div className={"col-10 offset-1"}>
-              <hr />
-              {movements && movements.length > 0 ? (
-                movements.map((mov, index) => {
-                  return (
-                    <MovementCard
-                      key={"mov_" + index}
-                      movement={getMovementWithColor(mov)}
-                      openModal={openModal}
-                    />
-                  );
-                })
-              ) : (
-                <div
-                  className={
-                    "d-flex flex-column align-items-center my-1 px-3 pt-5 mt-5"
-                  }
-                >
-                  <EmptyIcon width={64} height={64} />
-                  <p className={"mx-auto"}>Nessun movimento registrato</p>
-                  <Button
-                    variant={"primary"}
-                    className={"mt-3"}
-                    onClick={() => {
-                      goTo("/add");
-                    }}
+              <div className={"col-10 offset-1"}>
+                <hr />
+                {movements && movements.length > 0 ? (
+                  movements.map((mov, index) => {
+                    return (
+                      <MovementCard
+                        key={"mov_" + index}
+                        movement={getMovementWithColor(mov)}
+                        openModal={openModal}
+                      />
+                    );
+                  })
+                ) : (
+                  <div
+                    className={
+                      "d-flex flex-column align-items-center my-1 px-3 pt-5 mt-5"
+                    }
                   >
-                    Aggiungi
-                  </Button>
-                </div>
-              )}
+                    <EmptyIcon width={64} height={64} />
+                    <p className={"mx-auto"}>Nessun movimento registrato</p>
+                    <Button
+                      variant={"primary"}
+                      className={"mt-3"}
+                      onClick={() => {
+                        goTo("/add");
+                      }}
+                    >
+                      Aggiungi
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
