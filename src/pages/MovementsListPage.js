@@ -59,7 +59,7 @@ function MovementsListPage({ movements }) {
           handleDelete={handleDelete}
         />
       )}
-      <div className={"container h-100 overflow-scroll pb-5"}>
+      <div className={"container container-app overflow-scroll pb-3"}>
         <div className={"row"}>
           <div className={"col-12"}>
             <div className={"row mt-5 pb-5 text-center"}>

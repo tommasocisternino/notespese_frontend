@@ -7,9 +7,26 @@
     pointer-events: none;
 }
 
+.container-app{
+    height: calc(100vh - 42px)!important;
+    overflow-x: hidden;
+}
+
 @media (prefers-reduced-motion: no-preference) {
     .App-logo {
         animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+@media screen and (max-height: 667px) {
+    .textarea-query{
+        height: 100px !important;
+    }
+}
+
+@media screen and (min-height: 790px) {
+    .textarea-query{
+        height: 200px !important;
     }
 }
 
@@ -75,4 +92,12 @@ body {
 .category-color-square{
     height: 20px;
     width: 20px;
+}
+div::-webkit-scrollbar {
+    display: none;
+}
+
+div {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }

@@ -60,7 +60,7 @@ function ListaMovimentiPage() {
         setShow={setDeleteModalShow}
         categoryId={categoryId}
       />
-      <div className={"container h-100"}>
+      <div className={"container container-app overflow-scroll"}>
         <div className={"row"}>
           <div className={"col-12"}>
             <Form onSubmit={handleSubmit}>
@@ -215,15 +215,18 @@ function ListaMovimentiPage() {
                     <Form.Label className={"fw-bolder"}>Note</Form.Label>
                     <Form.Control
                       as="textarea"
-                      rows={4}
+                      maxLength="500"
+                      size={"sm"}
+                      className={"textarea-query"}
                       onChange={(e) => {
                         setNote(e.target.value);
                       }}
+                      style={{ resize: "none" }}
                     />
                   </Form.Group>
                 </div>
               </div>
-              <div className={"row mt-5"}>
+              <div className={"row mt-3"}>
                 <Button
                   variant={"success"}
                   className={"col-4 offset-4"}

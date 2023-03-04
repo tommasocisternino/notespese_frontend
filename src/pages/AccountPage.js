@@ -10,7 +10,7 @@ function AccountPage() {
   if (authContext) {
     if (authContext.user) {
       return (
-        <div className={"container h-100"}>
+        <div className={"container container-app overflow-scroll"}>
           <div className={"row"}>
             <div className={"col-10 offset-1 mt-5"}>
               <div className={"row justify-content-center"}>
